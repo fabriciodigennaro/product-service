@@ -122,9 +122,20 @@ class GetProductPriceComponentTest {
                 .body(CoreMatchers.equalTo(expectedJson));
     }
 
+    /*
+    I have included these parameterized tests to cover the test cases requested in the challenge description.
+    This decision was made because the challenge description implied that these test cases should be included as part
+    of the component (E2E) tests.
+    However, these scenarios have also been covered by other types of tests.
+    In a typical production project, I would aim to avoid having component tests for scenarios that could be covered
+    by more cost-effective tests.
+     */
     @ParameterizedTest
     @MethodSource("testScenariosWithGivenDataset")
-    void shouldReturnValidPriceAtGivenDate(LocalDateTime validAt, ProductPrice expectedProductPrice) throws JsonProcessingException {
+    void shouldReturnValidPriceAtGivenDate(
+        LocalDateTime validAt,
+        ProductPrice expectedProductPrice
+    ) throws JsonProcessingException {
         // Given
         givenExistingDataset();
         ProductPriceResponse productPriceResponse = new ProductPriceResponse(
@@ -153,11 +164,11 @@ class GetProductPriceComponentTest {
 
     private static List<Arguments> testScenariosWithGivenDataset() {
         return List.of(
-                Arguments.of(LocalDateTime.of(2020, 6, 14, 10, 0), givenDataset.get(0)),
-                Arguments.of(LocalDateTime.of(2020, 6, 14, 16, 0), givenDataset.get(1)),
-                Arguments.of(LocalDateTime.of(2020, 6, 14, 21, 0), givenDataset.get(0)),
-                Arguments.of(LocalDateTime.of(2020, 6, 15, 10, 0), givenDataset.get(2)),
-                Arguments.of(LocalDateTime.of(2020, 6, 16, 21, 0), givenDataset.get(3))
+            Arguments.of(LocalDateTime.of(2020, 6, 14, 10, 0), givenDataset.get(0)),
+            Arguments.of(LocalDateTime.of(2020, 6, 14, 16, 0), givenDataset.get(1)),
+            Arguments.of(LocalDateTime.of(2020, 6, 14, 21, 0), givenDataset.get(0)),
+            Arguments.of(LocalDateTime.of(2020, 6, 15, 10, 0), givenDataset.get(2)),
+            Arguments.of(LocalDateTime.of(2020, 6, 16, 21, 0), givenDataset.get(3))
         );
     }
 
@@ -176,11 +187,11 @@ class GetProductPriceComponentTest {
                 .addValue("price", productPrice.price().amount())
                 .addValue("currency", productPrice.price().currency().getCurrencyCode());
         namedParameterJdbcTemplate.update(
-                """
-                    INSERT INTO prices(brand_id, start_date, end_date, price_list, product_id, priority, price, currency)
-                    VALUES (:brandId, :startDate, :endDate, :priceList, :productId, :priority, :price, :currency)
-                """,
-                params
+            """
+                INSERT INTO prices(brand_id, start_date, end_date, price_list, product_id, priority, price, currency)
+                VALUES (:brandId, :startDate, :endDate, :priceList, :productId, :priority, :price, :currency)
+            """,
+            params
         );
     }
 
