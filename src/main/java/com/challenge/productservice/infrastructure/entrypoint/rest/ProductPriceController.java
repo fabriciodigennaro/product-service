@@ -39,67 +39,67 @@ public class ProductPriceController {
     }
 
     @Operation(
-            summary = "Get a product price",
-            description = "Fetches the price of a product valid at a provided date filtering by product ID and brand ID."
+        summary = "Get a product price",
+        description = "Fetches the price of a product valid at a provided date filtering by product ID and brand ID."
     )
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Successful response",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = ProductPriceResponse.class)
-                            )
-                    }
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Price not found for given parameters.",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = Problem.class)
-                            )
-                    }
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Internal server error",
-                    content = {
-                            @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(implementation = Problem.class)
-                            )
-                    }
-            )
+        @ApiResponse(
+            responseCode = "200",
+            description = "Successful response",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ProductPriceResponse.class)
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Price not found for given parameters.",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Problem.class)
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal server error",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = Problem.class)
+                )
+            }
+        )
     })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Object> getProductPrice(
-            @Parameter(example = "35455") @RequestParam long productId,
-            @Parameter(example = "1") @RequestParam long brandId,
-            @Parameter(example = "2020-06-14T15:50:00") @RequestParam LocalDateTime validAt
+        @Parameter(example = "35455") @RequestParam long productId,
+        @Parameter(example = "1") @RequestParam long brandId,
+        @Parameter(example = "2020-06-14T15:50:00") @RequestParam LocalDateTime validAt
     ) {
 
         GetProductPriceRequest request = new GetProductPriceRequest(
-                new ProductId(productId),
-                new BrandId(brandId),
-                validAt
+            new ProductId(productId),
+            new BrandId(brandId),
+            validAt
         );
         GetProductPriceResponse productPrice = getProductPriceUseCase.execute(request);
 
         return switch (productPrice) {
             case GetProductPriceResponse.Successful response -> ResponseEntity.ok(
-                    new ProductPriceResponse(
-                            response.getProductPrice().productId().value(),
-                            response.getProductPrice().brandId().value(),
-                            response.getProductPrice().priceList(),
-                            response.getProductPrice().startDate(),
-                            response.getProductPrice().endDate(),
-                            response.getProductPrice().price().amount(),
-                            response.getProductPrice().price().currency().getCurrencyCode()
-                    )
+                new ProductPriceResponse(
+                    response.getProductPrice().productId().value(),
+                    response.getProductPrice().brandId().value(),
+                    response.getProductPrice().priceList(),
+                    response.getProductPrice().startDate(),
+                    response.getProductPrice().endDate(),
+                    response.getProductPrice().price().amount(),
+                    response.getProductPrice().price().currency().getCurrencyCode()
+                )
             );
             case GetProductPriceResponse.ProductPriceNotFound ignored -> {
                 Problem problem = new Problem("Price not found for given parameters.");

@@ -29,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @JdbcTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({
-        DatabaseConfig.class
+    DatabaseConfig.class
 })
 class JdbcProductPriceRepositoryIntegrationTest {
 
@@ -47,18 +47,18 @@ class JdbcProductPriceRepositoryIntegrationTest {
         ProductId productId = new ProductId(randomLong());
         BrandId brandId = new BrandId(randomLong());
         ProductPrice productPricePriorityZero = createProductPrice(
-                brandId,
-                productId,
-                validAt.minusDays(1),
-                validAt.plusDays(1),
-                0
+            brandId,
+            productId,
+            validAt.minusDays(1),
+            validAt.plusDays(1),
+            0
         );
         ProductPrice productPricePriorityOne = createProductPrice(
-                brandId,
-                productId,
-                validAt.minusDays(1),
-                validAt.plusDays(1),
-                1
+            brandId,
+            productId,
+            validAt.minusDays(1),
+            validAt.plusDays(1),
+            1
         );
         givenExistingProductPrice(productPricePriorityZero);
         givenExistingProductPrice(productPricePriorityOne);
@@ -76,11 +76,11 @@ class JdbcProductPriceRepositoryIntegrationTest {
         ProductId productId = new ProductId(randomLong());
         BrandId brandId = new BrandId(randomLong());
         ProductPrice productPrice = createProductPrice(
-                brandId,
-                productId,
-                validAt,
-                validAt.plusDays(1),
-                0
+            brandId,
+            productId,
+            validAt,
+            validAt.plusDays(1),
+            0
         );
         givenExistingProductPrice(productPrice);
 
@@ -97,11 +97,11 @@ class JdbcProductPriceRepositoryIntegrationTest {
         ProductId productId = new ProductId(randomLong());
         BrandId brandId = new BrandId(randomLong());
         ProductPrice productPrice = createProductPrice(
-                brandId,
-                productId,
-                validAt.minusDays(1),
-                validAt,
-                0
+            brandId,
+            productId,
+            validAt.minusDays(1),
+            validAt,
+            0
         );
         givenExistingProductPrice(productPrice);
 
@@ -118,11 +118,11 @@ class JdbcProductPriceRepositoryIntegrationTest {
         ProductId productId = new ProductId(randomLong());
         BrandId brandId = new BrandId(randomLong());
         ProductPrice productPrice = createProductPrice(
-                brandId,
-                productId,
-                validAt.minusDays(2),
-                validAt.minusDays(1),
-                0
+            brandId,
+            productId,
+            validAt.minusDays(2),
+            validAt.minusDays(1),
+            0
         );
         givenExistingProductPrice(productPrice);
 
@@ -139,11 +139,11 @@ class JdbcProductPriceRepositoryIntegrationTest {
         ProductId productId = new ProductId(randomLong());
         BrandId brandId = new BrandId(randomLong());
         ProductPrice productPrice = createProductPrice(
-                brandId,
-                productId,
-                validAt.plusDays(1),
-                validAt.plusDays(2),
-                0
+            brandId,
+            productId,
+            validAt.plusDays(1),
+            validAt.plusDays(2),
+            0
         );
         givenExistingProductPrice(productPrice);
 
@@ -173,11 +173,11 @@ class JdbcProductPriceRepositoryIntegrationTest {
         ProductId productId = new ProductId(randomLong());
         BrandId brandId = new BrandId(randomLong());
         ProductPrice productPrice = createProductPrice(
-                brandId,
-                productId,
-                validAt.minusDays(1),
-                validAt.plusDays(1),
-                0
+            brandId,
+            productId,
+            validAt.minusDays(1),
+            validAt.plusDays(1),
+            0
         );
         givenExistingProductPrice(productPrice);
 
@@ -196,11 +196,11 @@ class JdbcProductPriceRepositoryIntegrationTest {
         ProductId productId = new ProductId(randomLong());
         BrandId brandId = new BrandId(randomLong());
         ProductPrice productPrice = createProductPrice(
-                brandId,
-                productId,
-                validAt.minusDays(1),
-                validAt.plusDays(1),
-                0
+            brandId,
+            productId,
+            validAt.minusDays(1),
+            validAt.plusDays(1),
+            0
         );
         givenExistingProductPrice(productPrice);
 
@@ -215,20 +215,20 @@ class JdbcProductPriceRepositoryIntegrationTest {
 
     private void givenExistingProductPrice(ProductPrice productPrice) {
         MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("brandId", productPrice.brandId().value())
-                .addValue("startDate", productPrice.startDate())
-                .addValue("endDate", productPrice.endDate())
-                .addValue("priceList", productPrice.priceList())
-                .addValue("productId", productPrice.productId().value())
-                .addValue("priority", productPrice.priority())
-                .addValue("price", productPrice.price().amount())
-                .addValue("currency", productPrice.price().currency().getCurrencyCode());
+            .addValue("brandId", productPrice.brandId().value())
+            .addValue("startDate", productPrice.startDate())
+            .addValue("endDate", productPrice.endDate())
+            .addValue("priceList", productPrice.priceList())
+            .addValue("productId", productPrice.productId().value())
+            .addValue("priority", productPrice.priority())
+            .addValue("price", productPrice.price().amount())
+            .addValue("currency", productPrice.price().currency().getCurrencyCode());
         namedParameterJdbcTemplate.update(
-                """
+            """
                     INSERT INTO prices(brand_id, start_date, end_date, price_list, product_id, priority, price, currency)
                     VALUES (:brandId, :startDate, :endDate, :priceList, :productId, :priority, :price, :currency)
                 """,
-                params
+            params
         );
     }
 
@@ -237,23 +237,23 @@ class JdbcProductPriceRepositoryIntegrationTest {
     }
 
     private ProductPrice createProductPrice(
-            BrandId brandId,
-            ProductId productId,
-            LocalDateTime startDate,
-            LocalDateTime endDate,
-            int priority
+        BrandId brandId,
+        ProductId productId,
+        LocalDateTime startDate,
+        LocalDateTime endDate,
+        int priority
     ) {
         return new ProductPrice(
-                brandId,
-                startDate,
-                endDate,
-                1,
-                productId,
-                priority,
-                new Price(
-                        new BigDecimal("9.99"),
-                        Monetary.getCurrency("EUR")
-                )
+            brandId,
+            startDate,
+            endDate,
+            1,
+            productId,
+            priority,
+            new Price(
+                new BigDecimal("9.99"),
+                Monetary.getCurrency("EUR")
+            )
         );
     }
 }

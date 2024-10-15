@@ -10,7 +10,7 @@ public class UseCasesConfig {
 
     @Bean
     public GetProductPriceUseCase getProductPriceUseCase(
-            ProductPriceRepository productPriceRepository
+        ProductPriceRepository productPriceRepository
     ) {
         return new GetProductPriceUseCase(productPriceRepository);
     }

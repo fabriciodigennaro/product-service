@@ -26,19 +26,19 @@ public class JdbcProductPriceRepository implements ProductPriceRepository {
     @Override
     public List<ProductPrice> getProductPrices(ProductId productId, BrandId brandId, LocalDateTime validAt) {
         MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("productId", productId.value())
-                .addValue("brandId", brandId.value())
-                .addValue("validAt", validAt);
+            .addValue("productId", productId.value())
+            .addValue("brandId", brandId.value())
+            .addValue("validAt", validAt);
         return namedParameterJdbcTemplate.query(
-                """
+            """
                     SELECT * FROM prices
                     WHERE product_id = :productId
                     AND brand_id = :brandId
                     AND start_date <= :validAt
                     AND end_date >= :validAt
                 """,
-                params,
-                new ProductPriceRowMapper()
+            params,
+            new ProductPriceRowMapper()
         );
     }
 
@@ -47,16 +47,16 @@ public class JdbcProductPriceRepository implements ProductPriceRepository {
         @Override
         public ProductPrice mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new ProductPrice(
-                    new BrandId(rs.getInt("brand_id")),
-                    rs.getTimestamp("start_date").toLocalDateTime(),
-                    rs.getTimestamp("end_date").toLocalDateTime(),
-                    rs.getInt("price_list"),
-                    new ProductId(rs.getInt("product_id")),
-                    rs.getInt("priority"),
-                    new Price(
-                            rs.getBigDecimal("price"),
-                            Monetary.getCurrency(rs.getString("currency"))
-                    )
+                new BrandId(rs.getInt("brand_id")),
+                rs.getTimestamp("start_date").toLocalDateTime(),
+                rs.getTimestamp("end_date").toLocalDateTime(),
+                rs.getInt("price_list"),
+                new ProductId(rs.getInt("product_id")),
+                rs.getInt("priority"),
+                new Price(
+                    rs.getBigDecimal("price"),
+                    Monetary.getCurrency(rs.getString("currency"))
+                )
             );
         }
     }

@@ -34,7 +34,7 @@ class GetProductPriceUseCaseTest {
         // Given
         ProductPrice expectedProductPrice = createProductPriceWithPriority(0);
         when(productPriceRepository.getProductPrices(productId, brandId, validAt))
-                .thenReturn(List.of(expectedProductPrice));
+            .thenReturn(List.of(expectedProductPrice));
 
         // When
         GetProductPriceResponse response = useCase.execute(request);
@@ -50,7 +50,7 @@ class GetProductPriceUseCaseTest {
         ProductPrice productPriceWithLessPriority = createProductPriceWithPriority(0);
         ProductPrice productPriceWithHighestPriority = createProductPriceWithPriority(1);
         when(productPriceRepository.getProductPrices(productId, brandId, validAt))
-                .thenReturn(List.of(productPriceWithHighestPriority, productPriceWithLessPriority));
+            .thenReturn(List.of(productPriceWithHighestPriority, productPriceWithLessPriority));
 
         // When
         GetProductPriceResponse response = useCase.execute(request);
@@ -74,13 +74,13 @@ class GetProductPriceUseCaseTest {
 
     private ProductPrice createProductPriceWithPriority(int priority) {
         return new ProductPrice(
-                brandId,
-                startDate,
-                endDate,
-                1,
-                productId,
-                priority,
-                price
+            brandId,
+            startDate,
+            endDate,
+            1,
+            productId,
+            priority,
+            price
         );
     }
 }

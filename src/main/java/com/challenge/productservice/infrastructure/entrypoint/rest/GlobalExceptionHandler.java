@@ -12,28 +12,34 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({
-            RuntimeException.class
+        RuntimeException.class
     })
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    com.challenge.productservice.infrastructure.entrypoint.rest.response.Problem handle(RuntimeException exception) {
-        return new com.challenge.productservice.infrastructure.entrypoint.rest.response.Problem("An unexpected error occurred");
+    Problem handle(RuntimeException exception) {
+        return new Problem("An unexpected error occurred");
     }
 
     @ExceptionHandler({
-            MissingServletRequestParameterException.class,
+        MissingServletRequestParameterException.class,
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    com.challenge.productservice.infrastructure.entrypoint.rest.response.Problem handle(MissingServletRequestParameterException exception) {
-        String message = String.format("Required request parameter '%s' is not present", exception.getParameterName());
-        return new com.challenge.productservice.infrastructure.entrypoint.rest.response.Problem(message);
+    Problem handle(MissingServletRequestParameterException exception) {
+        String message = String.format(
+            "Required request parameter '%s' is not present",
+            exception.getParameterName()
+        );
+        return new Problem(message);
     }
 
     @ExceptionHandler({
-            MethodArgumentTypeMismatchException.class,
+        MethodArgumentTypeMismatchException.class,
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    com.challenge.productservice.infrastructure.entrypoint.rest.response.Problem handle(MethodArgumentTypeMismatchException exception) {
-        String message = String.format("Parameter '%s' has an invalid type", exception.getParameter().getParameter().getName());
+    Problem handle(MethodArgumentTypeMismatchException exception) {
+        String message = String.format(
+            "Parameter '%s' has an invalid type",
+            exception.getParameter().getParameter().getName()
+        );
         return new Problem(message);
     }
 }

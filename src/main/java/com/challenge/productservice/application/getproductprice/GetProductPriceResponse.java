@@ -15,5 +15,6 @@ public abstract sealed class GetProductPriceResponse {
     public static final class Successful extends GetProductPriceResponse {
         private final ProductPrice productPrice;
     }
+
     public static final class ProductPriceNotFound extends GetProductPriceResponse {}
 }

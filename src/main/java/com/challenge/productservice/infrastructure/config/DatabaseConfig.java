@@ -11,7 +11,7 @@ public class DatabaseConfig {
 
     @Bean
     public ProductPriceRepository productPriceRepository(
-            NamedParameterJdbcTemplate namedParameterJdbcTemplate
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate
     ) {
         return new JdbcProductPriceRepository(namedParameterJdbcTemplate);
     }

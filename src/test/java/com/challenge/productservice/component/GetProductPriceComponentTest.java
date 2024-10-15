@@ -46,42 +46,42 @@ class GetProductPriceComponentTest {
     private static final BrandId brandId = new BrandId(1);
     private static final ProductId productId = new ProductId(35455);
     private static final List<ProductPrice> givenDataset = List.of(
-            new ProductPrice(
-                    brandId,
-                    LocalDateTime.parse("2020-06-14T00:00:00"),
-                    LocalDateTime.parse("2020-12-31T23:59:59"),
-                    1,
-                    productId,
-                    0,
-                    new Price(new BigDecimal("35.50"), Monetary.getCurrency("EUR"))
-            ),
-            new ProductPrice(
-                    brandId,
-                    LocalDateTime.parse("2020-06-14T15:00:00"),
-                    LocalDateTime.parse("2020-06-14T18:30:00"),
-                    2,
-                    productId,
-                    1,
-                    new Price(new BigDecimal("25.45"), Monetary.getCurrency("EUR"))
-            ),
-            new ProductPrice(
-                    brandId,
-                    LocalDateTime.parse("2020-06-15T00:00:00"),
-                    LocalDateTime.parse("2020-06-15T11:00:00"),
-                    3,
-                    productId,
-                    1,
-                    new Price(new BigDecimal("30.50"), Monetary.getCurrency("EUR"))
-            ),
-            new ProductPrice(
-                    brandId,
-                    LocalDateTime.parse("2020-06-15T16:00:00"),
-                    LocalDateTime.parse("2020-12-31T23:59:59"),
-                    4,
-                    productId,
-                    1,
-                    new Price(new BigDecimal("38.95"), Monetary.getCurrency("EUR"))
-            )
+        new ProductPrice(
+            brandId,
+            LocalDateTime.parse("2020-06-14T00:00:00"),
+            LocalDateTime.parse("2020-12-31T23:59:59"),
+            1,
+            productId,
+            0,
+            new Price(new BigDecimal("35.50"), Monetary.getCurrency("EUR"))
+        ),
+        new ProductPrice(
+            brandId,
+            LocalDateTime.parse("2020-06-14T15:00:00"),
+            LocalDateTime.parse("2020-06-14T18:30:00"),
+            2,
+            productId,
+            1,
+            new Price(new BigDecimal("25.45"), Monetary.getCurrency("EUR"))
+        ),
+        new ProductPrice(
+            brandId,
+            LocalDateTime.parse("2020-06-15T00:00:00"),
+            LocalDateTime.parse("2020-06-15T11:00:00"),
+            3,
+            productId,
+            1,
+            new Price(new BigDecimal("30.50"), Monetary.getCurrency("EUR"))
+        ),
+        new ProductPrice(
+            brandId,
+            LocalDateTime.parse("2020-06-15T16:00:00"),
+            LocalDateTime.parse("2020-12-31T23:59:59"),
+            4,
+            productId,
+            1,
+            new Price(new BigDecimal("38.95"), Monetary.getCurrency("EUR"))
+        )
     );
 
     @Test
@@ -89,37 +89,37 @@ class GetProductPriceComponentTest {
         // Given
         LocalDateTime validAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
         ProductPrice productPrice = new ProductPrice(
-                brandId,
-                validAt.minusDays(1),
-                validAt.plusDays(1),
-                1,
-                productId,
-                1,
-                new Price(new BigDecimal("9.99"), Monetary.getCurrency("EUR"))
+            brandId,
+            validAt.minusDays(1),
+            validAt.plusDays(1),
+            1,
+            productId,
+            1,
+            new Price(new BigDecimal("9.99"), Monetary.getCurrency("EUR"))
         );
         ProductPriceResponse productPriceResponse = new ProductPriceResponse(
-                productPrice.productId().value(),
-                productPrice.brandId().value(),
-                productPrice.priceList(),
-                productPrice.startDate(),
-                productPrice.endDate(),
-                productPrice.price().amount(),
-                productPrice.price().currency().getCurrencyCode()
+            productPrice.productId().value(),
+            productPrice.brandId().value(),
+            productPrice.priceList(),
+            productPrice.startDate(),
+            productPrice.endDate(),
+            productPrice.price().amount(),
+            productPrice.price().currency().getCurrencyCode()
         );
         givenExistingProductPrice(productPrice);
         String expectedJson = objectMapper.writeValueAsString(productPriceResponse);
 
         // When
         MockMvcResponse response = whenARequestToGetAProductPriceIsReceived(
-                productPrice.productId(),
-                productPrice.brandId(),
-                validAt
+            productPrice.productId(),
+            productPrice.brandId(),
+            validAt
         );
 
         // Then
         response.then()
-                .statusCode(HttpStatus.OK.value())
-                .body(CoreMatchers.equalTo(expectedJson));
+            .statusCode(HttpStatus.OK.value())
+            .body(CoreMatchers.equalTo(expectedJson));
     }
 
     /*
@@ -139,27 +139,27 @@ class GetProductPriceComponentTest {
         // Given
         givenExistingDataset();
         ProductPriceResponse productPriceResponse = new ProductPriceResponse(
-                expectedProductPrice.productId().value(),
-                expectedProductPrice.brandId().value(),
-                expectedProductPrice.priceList(),
-                expectedProductPrice.startDate(),
-                expectedProductPrice.endDate(),
-                expectedProductPrice.price().amount(),
-                expectedProductPrice.price().currency().getCurrencyCode()
+            expectedProductPrice.productId().value(),
+            expectedProductPrice.brandId().value(),
+            expectedProductPrice.priceList(),
+            expectedProductPrice.startDate(),
+            expectedProductPrice.endDate(),
+            expectedProductPrice.price().amount(),
+            expectedProductPrice.price().currency().getCurrencyCode()
         );
         String expectedJson = objectMapper.writeValueAsString(productPriceResponse);
 
         // When
         MockMvcResponse response = whenARequestToGetAProductPriceIsReceived(
-                expectedProductPrice.productId(),
-                expectedProductPrice.brandId(),
-                validAt
+            expectedProductPrice.productId(),
+            expectedProductPrice.brandId(),
+            validAt
         );
 
         // Then
         response.then()
-                .statusCode(HttpStatus.OK.value())
-                .body(CoreMatchers.equalTo(expectedJson));
+            .statusCode(HttpStatus.OK.value())
+            .body(CoreMatchers.equalTo(expectedJson));
     }
 
     private static List<Arguments> testScenariosWithGivenDataset() {
@@ -178,36 +178,36 @@ class GetProductPriceComponentTest {
 
     private void givenExistingProductPrice(ProductPrice productPrice) {
         MapSqlParameterSource params = new MapSqlParameterSource()
-                .addValue("brandId", productPrice.brandId().value())
-                .addValue("startDate", productPrice.startDate())
-                .addValue("endDate", productPrice.endDate())
-                .addValue("priceList", productPrice.priceList())
-                .addValue("productId", productPrice.productId().value())
-                .addValue("priority", productPrice.priority())
-                .addValue("price", productPrice.price().amount())
-                .addValue("currency", productPrice.price().currency().getCurrencyCode());
+            .addValue("brandId", productPrice.brandId().value())
+            .addValue("startDate", productPrice.startDate())
+            .addValue("endDate", productPrice.endDate())
+            .addValue("priceList", productPrice.priceList())
+            .addValue("productId", productPrice.productId().value())
+            .addValue("priority", productPrice.priority())
+            .addValue("price", productPrice.price().amount())
+            .addValue("currency", productPrice.price().currency().getCurrencyCode());
         namedParameterJdbcTemplate.update(
             """
-                INSERT INTO prices(brand_id, start_date, end_date, price_list, product_id, priority, price, currency)
-                VALUES (:brandId, :startDate, :endDate, :priceList, :productId, :priority, :price, :currency)
-            """,
+                    INSERT INTO prices(brand_id, start_date, end_date, price_list, product_id, priority, price, currency)
+                    VALUES (:brandId, :startDate, :endDate, :priceList, :productId, :priority, :price, :currency)
+                """,
             params
         );
     }
 
     private MockMvcResponse whenARequestToGetAProductPriceIsReceived(
-            ProductId productId,
-            BrandId brandId,
-            LocalDateTime validAt
+        ProductId productId,
+        BrandId brandId,
+        LocalDateTime validAt
     ) {
         return RestAssuredMockMvc
-                .given()
-                .webAppContextSetup(context)
-                .contentType(ContentType.JSON)
-                .param("productId", productId.value())
-                .param("brandId", brandId.value())
-                .param("validAt", validAt.toString())
-                .when()
-                .get("/prices");
+            .given()
+            .webAppContextSetup(context)
+            .contentType(ContentType.JSON)
+            .param("productId", productId.value())
+            .param("brandId", brandId.value())
+            .param("validAt", validAt.toString())
+            .when()
+            .get("/prices");
     }
 }

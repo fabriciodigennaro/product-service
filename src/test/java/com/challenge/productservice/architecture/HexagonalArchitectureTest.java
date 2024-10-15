@@ -10,33 +10,33 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 class HexagonalArchitectureTest {
     private final JavaClasses importedClasses = new ClassFileImporter()
-            .withImportOption(DO_NOT_INCLUDE_TESTS)
-            .importPackages("com.challenge.productservice");
+        .withImportOption(DO_NOT_INCLUDE_TESTS)
+        .importPackages("com.challenge.productservice");
 
     @Test
     void domainShouldNotAccessOtherLayers() {
         classes()
-                .that().resideInAPackage("..domain..")
-                .should().onlyDependOnClassesThat().resideInAnyPackage(
-                        "..domain..",
-                        "java..",
-                        "javax..",
-                        "lombok.."
-                )
-                .check(importedClasses);
+            .that().resideInAPackage("..domain..")
+            .should().onlyDependOnClassesThat().resideInAnyPackage(
+                "..domain..",
+                "java..",
+                "javax..",
+                "lombok.."
+            )
+            .check(importedClasses);
     }
 
     @Test
     void applicationLayerShouldNotDependOnInfrastructureOrLibraries() {
         classes()
-                .that().resideInAPackage("..application..")
-                .should().onlyDependOnClassesThat().resideInAnyPackage(
-                        "..application..",
-                        "..domain..",
-                        "java..",
-                        "javax..",
-                        "lombok.."
-                )
-                .check(importedClasses);
+            .that().resideInAPackage("..application..")
+            .should().onlyDependOnClassesThat().resideInAnyPackage(
+                "..application..",
+                "..domain..",
+                "java..",
+                "javax..",
+                "lombok.."
+            )
+            .check(importedClasses);
     }
 }

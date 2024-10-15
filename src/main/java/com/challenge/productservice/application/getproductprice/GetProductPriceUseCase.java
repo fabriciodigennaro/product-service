@@ -19,13 +19,13 @@ public class GetProductPriceUseCase {
 
     public GetProductPriceResponse execute(GetProductPriceRequest request) {
         List<ProductPrice> productPrices = productPriceRepository.getProductPrices(
-                request.productId(),
-                request.brandId(),
-                request.validAt()
+            request.productId(),
+            request.brandId(),
+            request.validAt()
         );
 
         Optional<ProductPrice> productPrice = productPrices.stream()
-                .max(Comparator.comparingInt(ProductPrice::priority));
+            .max(Comparator.comparingInt(ProductPrice::priority));
 
         return productPrice.isPresent() ? new Successful(productPrice.get()) : new ProductPriceNotFound();
     }

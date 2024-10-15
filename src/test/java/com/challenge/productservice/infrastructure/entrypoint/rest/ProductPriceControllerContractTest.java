@@ -56,13 +56,13 @@ class ProductPriceControllerContractTest {
     Price price = new Price(new BigDecimal("9.99"), Monetary.getCurrency("EUR"));
     int priceList = 1;
     ProductPrice productPrice = new ProductPrice(
-            brandId,
-            startDate,
-            endDate,
-            priceList,
-            productId,
-            1,
-            price
+        brandId,
+        startDate,
+        endDate,
+        priceList,
+        productId,
+        1,
+        price
     );
     GetProductPriceRequest useCaseRequest = new GetProductPriceRequest(productId, brandId, validAt);
 
@@ -72,13 +72,13 @@ class ProductPriceControllerContractTest {
         GetProductPriceResponse useCaseResponse = new Successful(productPrice);
         when(getProductPriceUseCase.execute(useCaseRequest)).thenReturn(useCaseResponse);
         ProductPriceResponse productPriceResponse = new ProductPriceResponse(
-                productId.value(),
-                brandId.value(),
-                priceList,
-                startDate,
-                endDate,
-                price.amount(),
-                price.currency().getCurrencyCode()
+            productId.value(),
+            brandId.value(),
+            priceList,
+            startDate,
+            endDate,
+            price.amount(),
+            price.currency().getCurrencyCode()
         );
         String expectedJsonResponse = objectMapper.writeValueAsString(productPriceResponse);
 
@@ -87,8 +87,8 @@ class ProductPriceControllerContractTest {
 
         // Then
         response.then()
-                .statusCode(HttpStatus.OK.value())
-                .body(CoreMatchers.equalTo(expectedJsonResponse));
+            .statusCode(HttpStatus.OK.value())
+            .body(CoreMatchers.equalTo(expectedJsonResponse));
         verify(getProductPriceUseCase).execute(useCaseRequest);
     }
 
@@ -103,8 +103,8 @@ class ProductPriceControllerContractTest {
 
         // Then
         response.then()
-                .statusCode(HttpStatus.NOT_FOUND.value())
-                .body("detail", CoreMatchers.equalTo("Price not found for given parameters."));
+            .statusCode(HttpStatus.NOT_FOUND.value())
+            .body("detail", CoreMatchers.equalTo("Price not found for given parameters."));
         verify(getProductPriceUseCase).execute(useCaseRequest);
     }
 
@@ -116,12 +116,12 @@ class ProductPriceControllerContractTest {
 
         // Then
         response.then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("detail", CoreMatchers.equalTo(
-                                String.format(
-                                        "Required request parameter '%s' is not present", missingParamName)
-                        )
-                );
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .body("detail", CoreMatchers.equalTo(
+                    String.format(
+                        "Required request parameter '%s' is not present", missingParamName)
+                )
+            );
         verifyNoInteractions(getProductPriceUseCase);
     }
 
@@ -132,8 +132,8 @@ class ProductPriceControllerContractTest {
 
         // Then
         response.then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("detail", CoreMatchers.equalTo("Parameter 'validAt' has an invalid type"));
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .body("detail", CoreMatchers.equalTo("Parameter 'validAt' has an invalid type"));
         verifyNoInteractions(getProductPriceUseCase);
     }
 
@@ -141,36 +141,48 @@ class ProductPriceControllerContractTest {
     void shouldReturn400WhenValidAtParamHasInvalidDateTimeFormat() {
         // When
         String invalidDate = "2024/7/2";
-        MockMvcResponse response = whenARequestToGetAProductPriceIsReceived(String.valueOf(productId.value()), String.valueOf(brandId.value()), invalidDate);
+        MockMvcResponse response = whenARequestToGetAProductPriceIsReceived(
+            String.valueOf(productId.value()),
+            String.valueOf(brandId.value()),
+            invalidDate
+        );
 
         // Then
         response.then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("detail", CoreMatchers.equalTo("Parameter 'validAt' has an invalid type"));
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .body("detail", CoreMatchers.equalTo("Parameter 'validAt' has an invalid type"));
         verifyNoInteractions(getProductPriceUseCase);
     }
 
     @Test
     void shouldReturn400WhenProductIdParamHasInvalidType() {
         // When
-        MockMvcResponse response = whenARequestToGetAProductPriceIsReceived("invalid productId", String.valueOf(brandId.value()), validAt.toString());
+        MockMvcResponse response = whenARequestToGetAProductPriceIsReceived(
+            "invalid productId",
+            String.valueOf(brandId.value()),
+            validAt.toString()
+        );
 
         // Then
         response.then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("detail", CoreMatchers.equalTo("Parameter 'productId' has an invalid type"));
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .body("detail", CoreMatchers.equalTo("Parameter 'productId' has an invalid type"));
         verifyNoInteractions(getProductPriceUseCase);
     }
 
     @Test
     void shouldReturn400WhenBrandIdParamHasInvalidType() {
         // When
-        MockMvcResponse response = whenARequestToGetAProductPriceIsReceived(String.valueOf(productId.value()), "invalid brandId", validAt.toString());
+        MockMvcResponse response = whenARequestToGetAProductPriceIsReceived(
+            String.valueOf(productId.value()),
+            "invalid brandId",
+            validAt.toString()
+        );
 
         // Then
         response.then()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("detail", CoreMatchers.equalTo("Parameter 'brandId' has an invalid type"));
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .body("detail", CoreMatchers.equalTo("Parameter 'brandId' has an invalid type"));
         verifyNoInteractions(getProductPriceUseCase);
     }
 
@@ -184,40 +196,40 @@ class ProductPriceControllerContractTest {
 
         // Then
         response.then()
-                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .body("detail", CoreMatchers.equalTo("An unexpected error occurred"));
+            .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            .body("detail", CoreMatchers.equalTo("An unexpected error occurred"));
         verify(getProductPriceUseCase).execute(useCaseRequest);
     }
 
     private MockMvcResponse whenARequestToGetAProductPriceIsReceived() {
         return whenARequestToGetAProductPriceIsReceived(
-                String.valueOf(productId.value()),
-                String.valueOf(brandId.value()),
-                validAt.toString()
+            String.valueOf(productId.value()),
+            String.valueOf(brandId.value()),
+            validAt.toString()
         );
     }
 
     private MockMvcResponse whenARequestToGetAProductPriceIsReceived(
-            String productId,
-            String brandId,
-            String validAt
+        String productId,
+        String brandId,
+        String validAt
     ) {
         return RestAssuredMockMvc
-                .given()
-                .webAppContextSetup(context)
-                .contentType(ContentType.JSON)
-                .param("productId", productId)
-                .param("brandId", brandId)
-                .param("validAt", validAt)
-                .when()
-                .get("/prices");
+            .given()
+            .webAppContextSetup(context)
+            .contentType(ContentType.JSON)
+            .param("productId", productId)
+            .param("brandId", brandId)
+            .param("validAt", validAt)
+            .when()
+            .get("/prices");
     }
 
     private MockMvcResponse whenARequestToGetAProductPriceWithMissingParamIsReceived(String missingParam) {
         var mock = RestAssuredMockMvc
-                .given()
-                .webAppContextSetup(context)
-                .contentType(ContentType.JSON);
+            .given()
+            .webAppContextSetup(context)
+            .contentType(ContentType.JSON);
         if (!"productId".equals(missingParam)) {
             mock.param("productId", productId.value());
         }
@@ -228,7 +240,7 @@ class ProductPriceControllerContractTest {
             mock.param("validAt", productId.value());
         }
         return mock
-                .when()
-                .get("/prices");
+            .when()
+            .get("/prices");
     }
 }

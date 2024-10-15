@@ -12,15 +12,15 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 class SpringArchitectureTest {
     private final JavaClasses importedClasses = new ClassFileImporter()
-            .withImportOption(DO_NOT_INCLUDE_TESTS)
-            .importPackages("com.challenge.productservice");
+        .withImportOption(DO_NOT_INCLUDE_TESTS)
+        .importPackages("com.challenge.productservice");
 
     @Test
     void shouldNotUseStereotypeAnnotationsForBeans() {
         classes()
-                .should().notBeAnnotatedWith(Component.class)
-                .andShould().notBeAnnotatedWith(Repository.class)
-                .andShould().notBeAnnotatedWith(Service.class)
-                .check(importedClasses);
+            .should().notBeAnnotatedWith(Component.class)
+            .andShould().notBeAnnotatedWith(Repository.class)
+            .andShould().notBeAnnotatedWith(Service.class)
+            .check(importedClasses);
     }
 }

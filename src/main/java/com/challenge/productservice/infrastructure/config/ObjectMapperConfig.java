@@ -16,10 +16,10 @@ public class ObjectMapperConfig {
     @Primary
     public ObjectMapper objectMapper() {
         return JsonMapper.builder()
-                .serializationInclusion(JsonInclude.Include.NON_NULL)
-                .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
-                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                .build()
-                .registerModule(new JavaTimeModule());
+            .serializationInclusion(JsonInclude.Include.NON_NULL)
+            .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .build()
+            .registerModule(new JavaTimeModule());
     }
 }
