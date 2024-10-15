@@ -17,30 +17,41 @@ repositories {
 }
 
 dependencies {
+	val ARCH_UNIT = "1.3.0"
+	val ASSERT_J = "3.26.3"
+	val H2 = "2.3.232"
+	val LOMBOK = "1.18.34"
+	val MONETA = "1.4.4"
+	val OPEN_API = "2.6.0"
 	val REST_ASSURED = "5.5.0"
 
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
-	implementation("org.javamoney:moneta:1.4.4")
-	implementation("com.h2database:h2:2.3.232")
-	compileOnly("org.projectlombok:lombok:1.18.34")
-	annotationProcessor("org.projectlombok:lombok:1.18.34")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$OPEN_API")
+	implementation("org.javamoney:moneta:$MONETA")
+	implementation("com.h2database:h2:$H2")
+
+	compileOnly("org.projectlombok:lombok:$LOMBOK")
+
+	annotationProcessor("org.projectlombok:lombok:$LOMBOK")
 
 	// Test dependencies
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	testCompileOnly("org.projectlombok:lombok:1.18.34")
-	testAnnotationProcessor("org.projectlombok:lombok:1.18.34")
-	testImplementation("org.assertj:assertj-core:3.26.3")
-	testImplementation("com.tngtech.archunit:archunit:1.3.0")
+
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.assertj:assertj-core:$ASSERT_J")
+	testImplementation("com.tngtech.archunit:archunit:$ARCH_UNIT")
 	testImplementation("io.rest-assured:rest-assured:$REST_ASSURED")
 	testImplementation("io.rest-assured:json-path:$REST_ASSURED")
 	testImplementation("io.rest-assured:xml-path:$REST_ASSURED")
 	testImplementation("io.rest-assured:spring-mock-mvc:$REST_ASSURED")
 	testImplementation("io.rest-assured:spring-commons:$REST_ASSURED")
+
+	testCompileOnly("org.projectlombok:lombok:$LOMBOK")
+
+	testAnnotationProcessor("org.projectlombok:lombok:$LOMBOK")
 }
 
 jacoco {

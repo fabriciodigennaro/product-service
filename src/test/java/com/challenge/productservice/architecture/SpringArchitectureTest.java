@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import static com.tngtech.archunit.core.importer.ImportOption.Predefined.DO_NOT_INCLUDE_TESTS;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
-public class SpringArchitectureTest {
+class SpringArchitectureTest {
     private final JavaClasses importedClasses = new ClassFileImporter()
             .withImportOption(DO_NOT_INCLUDE_TESTS)
             .importPackages("com.challenge.productservice");
 
     @Test
-    public void shouldNotUseStereotypeAnnotationsForBeans() {
+    void shouldNotUseStereotypeAnnotationsForBeans() {
         classes()
                 .should().notBeAnnotatedWith(Component.class)
                 .andShould().notBeAnnotatedWith(Repository.class)

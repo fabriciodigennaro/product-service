@@ -5,10 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import static com.challenge.productservice.application.getproductprice.GetProductPriceResponse.Successful;
-import static com.challenge.productservice.application.getproductprice.GetProductPriceResponse.ProductPriceNotFound;
+public abstract sealed class GetProductPriceResponse {
 
-public abstract sealed class GetProductPriceResponse permits Successful, ProductPriceNotFound {
+    private GetProductPriceResponse() {}
+
     @Data
     @AllArgsConstructor
     @EqualsAndHashCode(callSuper = false)

@@ -31,7 +31,7 @@ import java.util.List;
 
 @SpringBootTest
 @Transactional
-public class GetProductPriceComponentTest {
+class GetProductPriceComponentTest {
 
     @Autowired
     private WebApplicationContext context;

@@ -130,7 +130,7 @@ class JdbcProductPriceRepositoryIntegrationTest {
         List<ProductPrice> result = productPriceRepository.getProductPrices(productId, brandId, validAt);
 
         // Then
-        AssertionsForClassTypes.assertThat(result.size()).isEqualTo(0);
+        assertThat(result).isEmpty();
     }
 
     @Test
@@ -151,7 +151,7 @@ class JdbcProductPriceRepositoryIntegrationTest {
         List<ProductPrice> result = productPriceRepository.getProductPrices(productId, brandId, validAt);
 
         // Then
-        AssertionsForClassTypes.assertThat(result.size()).isEqualTo(0);
+        assertThat(result).isEmpty();
     }
 
     @Test
@@ -164,7 +164,7 @@ class JdbcProductPriceRepositoryIntegrationTest {
         List<ProductPrice> result = productPriceRepository.getProductPrices(productId, brandId, validAt);
 
         // Then
-        AssertionsForClassTypes.assertThat(result.size()).isEqualTo(0);
+        assertThat(result).isEmpty();
     }
 
     @Test
@@ -187,7 +187,7 @@ class JdbcProductPriceRepositoryIntegrationTest {
         List<ProductPrice> result = productPriceRepository.getProductPrices(productId, anotherBrandId, validAt);
 
         // Then
-        AssertionsForClassTypes.assertThat(result.size()).isEqualTo(0);
+        assertThat(result).isEmpty();
     }
 
     @Test
@@ -210,7 +210,7 @@ class JdbcProductPriceRepositoryIntegrationTest {
         List<ProductPrice> result = productPriceRepository.getProductPrices(anotherProductId, brandId, validAt);
 
         // Then
-        AssertionsForClassTypes.assertThat(result.size()).isEqualTo(0);
+        assertThat(result).isEmpty();
     }
 
     private void givenExistingProductPrice(ProductPrice productPrice) {

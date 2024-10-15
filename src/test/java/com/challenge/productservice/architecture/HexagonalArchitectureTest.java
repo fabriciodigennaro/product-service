@@ -8,13 +8,13 @@ import static com.tngtech.archunit.core.importer.ImportOption.Predefined.DO_NOT_
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 
-public class HexagonalArchitectureTest {
+class HexagonalArchitectureTest {
     private final JavaClasses importedClasses = new ClassFileImporter()
             .withImportOption(DO_NOT_INCLUDE_TESTS)
             .importPackages("com.challenge.productservice");
 
     @Test
-    public void domainShouldNotAccessOtherLayers() {
+    void domainShouldNotAccessOtherLayers() {
         classes()
                 .that().resideInAPackage("..domain..")
                 .should().onlyDependOnClassesThat().resideInAnyPackage(
@@ -27,7 +27,7 @@ public class HexagonalArchitectureTest {
     }
 
     @Test
-    public void applicationLayerShouldNotDependOnInfrastructureOrLibraries() {
+    void applicationLayerShouldNotDependOnInfrastructureOrLibraries() {
         classes()
                 .that().resideInAPackage("..application..")
                 .should().onlyDependOnClassesThat().resideInAnyPackage(

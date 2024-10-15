@@ -140,8 +140,8 @@ class ProductPriceControllerContractTest {
     @Test
     void shouldReturn400WhenValidAtParamHasInvalidDateTimeFormat() {
         // When
-        String validAt = "2024/7/2";
-        MockMvcResponse response = whenARequestToGetAProductPriceIsReceived(String.valueOf(productId.value()), String.valueOf(brandId.value()), validAt);
+        String invalidDate = "2024/7/2";
+        MockMvcResponse response = whenARequestToGetAProductPriceIsReceived(String.valueOf(productId.value()), String.valueOf(brandId.value()), invalidDate);
 
         // Then
         response.then()
