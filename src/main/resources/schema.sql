@@ -1,4 +1,5 @@
 CREATE TABLE IF NOT EXISTS prices (
+    id          UUID            PRIMARY KEY,
     brand_id    BIGINT          NOT NULL,
     start_date  TIMESTAMP       NOT NULL,
     end_date    TIMESTAMP       NOT NULL,
