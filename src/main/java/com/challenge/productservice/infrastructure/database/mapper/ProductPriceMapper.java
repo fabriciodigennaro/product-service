@@ -10,7 +10,9 @@ import javax.money.Monetary;
 
 public class ProductPriceMapper {
 
-    public ProductPrice toDomain(ProductPriceEntity entity) {
+    private ProductPriceMapper() {}
+
+    public static ProductPrice toDomain(ProductPriceEntity entity) {
         return new ProductPrice(
             new BrandId(entity.getBrandId()),
             entity.getStartDate(),

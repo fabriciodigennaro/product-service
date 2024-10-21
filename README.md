@@ -117,16 +117,3 @@ The use case returns a sealed class, providing explicit control over success and
 Currently, only one failure case is handled (product price not found), but this design allows easy expansion for additional
 failure scenarios in the future.
 This approach avoids using exceptions for expected outcomes and provides more semantic meaning than using Optional or null.
-
-### Pull Request and Branch Management
-
-This project includes a demonstration of how to manage code using GitHub tools such as branches, pull requests, and tags.
-
-A new branch `feature/migrate-to-jpa` was created to migrate database access from JDBC to JPA.
-A [pull request](https://github.com/fabriciodigennaro/product-service/pull/3) has been opened for this migration,
-but it will not be merged into `main`.
-The pull request serves as an example of how to work with feature branches and pull requests for better code management.
-
-A tag `v1.1.0` was also created to mark the changes made during the migration.
-
-Feel free to review the pull request and the tags to understand the versioning and branching process.
