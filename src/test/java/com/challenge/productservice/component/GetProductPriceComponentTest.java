@@ -4,12 +4,14 @@ import com.challenge.productservice.domain.productprice.BrandId;
 import com.challenge.productservice.domain.productprice.Price;
 import com.challenge.productservice.domain.productprice.ProductId;
 import com.challenge.productservice.domain.productprice.ProductPrice;
+import com.challenge.productservice.infrastructure.database.entity.ProductPriceEntity;
 import com.challenge.productservice.infrastructure.entrypoint.rest.response.ProductPriceResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
+import jakarta.persistence.EntityManager;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,8 +20,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -40,8 +41,7 @@ class GetProductPriceComponentTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
+    private EntityManager entityManager;
 
     private static final BrandId brandId = new BrandId(1);
     private static final ProductId productId = new ProductId(35455);
@@ -177,22 +177,17 @@ class GetProductPriceComponentTest {
     }
 
     private void givenExistingProductPrice(ProductPrice productPrice) {
-        MapSqlParameterSource params = new MapSqlParameterSource()
-            .addValue("brandId", productPrice.brandId().value())
-            .addValue("startDate", productPrice.startDate())
-            .addValue("endDate", productPrice.endDate())
-            .addValue("priceList", productPrice.priceList())
-            .addValue("productId", productPrice.productId().value())
-            .addValue("priority", productPrice.priority())
-            .addValue("price", productPrice.price().amount())
-            .addValue("currency", productPrice.price().currency().getCurrencyCode());
-        namedParameterJdbcTemplate.update(
-            """
-                    INSERT INTO prices(brand_id, start_date, end_date, price_list, product_id, priority, price, currency)
-                    VALUES (:brandId, :startDate, :endDate, :priceList, :productId, :priority, :price, :currency)
-                """,
-            params
-        );
+        ProductPriceEntity entity = new ProductPriceEntity();
+        entity.setId(UUID.randomUUID());
+        entity.setBrandId(productPrice.brandId().value());
+        entity.setStartDate(productPrice.startDate());
+        entity.setEndDate(productPrice.endDate());
+        entity.setPriceList(productPrice.priceList());
+        entity.setProductId(productPrice.productId().value());
+        entity.setPriority(productPrice.priority());
+        entity.setPrice(productPrice.price().amount());
+        entity.setCurrency(productPrice.price().currency().getCurrencyCode());
+        entityManager.persist(entity);
     }
 
     private MockMvcResponse whenARequestToGetAProductPriceIsReceived(
