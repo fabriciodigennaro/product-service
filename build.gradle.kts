@@ -1,6 +1,6 @@
 plugins {
 	java
-	id("org.springframework.boot") version "3.3.4"
+	id("org.springframework.boot") version "3.4.0"
 	id("io.spring.dependency-management") version "1.1.6"
 	jacoco
 }
@@ -20,9 +20,9 @@ dependencies {
 	val ARCH_UNIT = "1.3.0"
 	val ASSERT_J = "3.26.3"
 	val H2 = "2.3.232"
-	val LOMBOK = "1.18.34"
+	val LOMBOK = "1.18.36"
 	val MONETA = "1.4.4"
-	val OPEN_API = "2.6.0"
+	val OPEN_API = "2.7.0"
 	val REST_ASSURED = "5.5.0"
 
 	implementation("org.springframework.boot:spring-boot-starter")
