@@ -22,7 +22,7 @@ dependencies {
 	val H2 = "2.3.232"
 	val LOMBOK = "1.18.36"
 	val MONETA = "1.4.4"
-	val OPEN_API = "2.8.1"
+	val OPEN_API = "2.8.3"
 	val REST_ASSURED = "5.5.0"
 
 	implementation("org.springframework.boot:spring-boot-starter")
